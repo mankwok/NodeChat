@@ -13,7 +13,6 @@ const $usernameField = $('#username');
 function init() {
 	$divChat.hide();
 	$usernameField.val('');
-	$usernameField.focus();
 }
 
 function cleanInput(input) {
@@ -49,9 +48,8 @@ function prepareMessage(msgType, data) {
 }
 
 function login() {
-	username = cleanInput($("#username").val()) || 'Anonymous';
+	username = cleanInput($usernameField.val());
 	socket.emit('login', username);
-
 	$divLogin.hide();
 	$divChat.show();
 	$inputField.focus();
