@@ -1,4 +1,4 @@
-#A NodeJs chat application
+# A NodeJs chat application
 
 Credits:
 1. https://github.com/Edmeral/simple-chat-room
