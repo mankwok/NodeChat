@@ -1,0 +1,31 @@
+body {
+	margin: auto;
+	padding: 0px;
+	font-family: 'Consolas';
+	font-size: 80%;
+}
+
+label{
+	float: left;
+}
+
+input {
+	border: 0;
+	font-family: 'Consolas';
+	outline: none;
+	width: 100%;
+}
+span {
+    display: block;
+    overflow: hidden;
+}
+
+#input_msg {
+	overflow: hidden;
+}
+
+#conversation {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}

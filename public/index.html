@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Command Window</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div id="chat">
+		<ul id="conversation"></ul>
+		<div id="input_msg">
+			<label for="msg">&gt;</label>
+			<span><input type="text" name="msg" id="msg" placeholder="" autofocus></span>
+		</div>
+	</div>
+	<div id="login">
+		<label for="username">Enter name:</label>
+		<span>
+			<input type="text" name="username" id="username" placeholder="" autofocus>
+		</span>
+	</div>
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="moment.min.js"></script>
+	<script src="script.js"></script>
+	<noscript>Please enable JavaScript!</noscript>
+</body>
+</html>
+

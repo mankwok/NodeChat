@@ -1,0 +1,31 @@
+{
+  "name": "nodechat",
+  "version": "0.1.0",
+  "author": "Kwok",
+  "license": "ISC",
+  "description": "NodeJs Chatroom",
+  "dependencies": {
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
+    "moment": "^2.20.1",
+    "socket.io": "^2.0.4"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mankwok/NodeChat.git"
+  },
+  "keywords": [
+    "nodejs",
+    "chatroom"
+  ],
+  "bugs": {
+    "url": "https://github.com/mankwok/NodeChat/issues"
+  },
+  "homepage": "https://github.com/mankwok/NodeChat#readme"
+}
