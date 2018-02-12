@@ -73,7 +73,7 @@ socket.on('message', function (data) {
 });
 
 socket.on('reconnect', function () {
-	if (username) {
+	if (loggedIn && username) {
 		addMessageElement('self', 'You have been reconnected');
 		loggedIn = true;
 		socket.emit('login', username);
