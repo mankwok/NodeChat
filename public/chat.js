@@ -1,5 +1,9 @@
 var loggedIn = false;
 var username = '';
+var msgStack = [];
+var msgStackPosition = 0;
+
+const msgStackSize = 10;
 
 const socket = io();
 
@@ -101,6 +105,26 @@ $inputField.keyup(function (event) {
 			addMessageElement('self', message);
 			$inputField.val('');
 			$inputField.focus();
+			if (msgStack.length == msgStackSize) {
+				msgStack.shift();
+			}
+			msgStackPosition = msgStack.push(message) - 1;
+		}
+	} else if (event.which == 38) {
+		var prevMsg = msgStack[msgStackPosition];
+		if (prevMsg) {
+			$inputField.val(prevMsg);
+			if (msgStackPosition > 0) {
+				msgStackPosition--;
+			}
+		}
+	} else if (event.which == 40) {
+		var nextMsg = msgStack[msgStackPosition];
+		if (nextMsg) {
+			$inputField.val(nextMsg);
+			if (msgStackPosition + 1 < msgStack.length) {
+				msgStackPosition++;
+			}
 		}
 	}
 });
