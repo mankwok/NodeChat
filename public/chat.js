@@ -2,6 +2,8 @@ var loggedIn = false;
 var username = '';
 var msgStack = [];
 var msgStackPosition = 0;
+var typing = false;
+var lastTypingTime;
 
 const msgStackSize = 10;
 
@@ -10,9 +12,12 @@ const socket = io();
 const $divChat = $('#chat');
 const $conversation = $('#conversation');
 const $inputField = $('#msg');
+const $typing = $('#typing');
 
 const $divLogin = $('#login');
 const $usernameField = $('#username');
+
+const TYPING_TIMER_LENGTH = 500;
 
 function init() {
 	$divChat.hide();
@@ -59,6 +64,37 @@ function login() {
 	$inputField.focus();
 }
 
+function updateTyping() {
+	if (loggedIn) {
+		if (!typing) {
+			typing = true;
+			socket.emit('typing');
+		}
+		lastTypingTime = moment();
+
+		setTimeout(function () {
+			var typingTimer = moment();
+			var timeDiff = typingTimer - lastTypingTime;
+			if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
+				socket.emit('stop-typing');
+				typing = false;
+			}
+		}, TYPING_TIMER_LENGTH);
+	}
+}
+
+function addChatTyping(data) {
+	if (loggedIn) {
+		$typing.text(data.username + " is typing...");
+	}
+}
+
+function removeChatTyping() {
+	if (loggedIn) {
+		$typing.text("");
+	}
+}
+
 socket.on('logged-in', function (data) {
 	loggedIn = true;
 	addMessageElement('logged-in', data);
@@ -91,6 +127,14 @@ socket.on('reconnect-error', function () {
 	}
 });
 
+socket.on('typing', function (data) {
+	addChatTyping(data);
+});
+
+socket.on('stop-typing', function () {
+	removeChatTyping();
+});
+
 $usernameField.keyup(function (event) {
 	if (event.which == 13) {
 		login();
@@ -109,6 +153,8 @@ $inputField.keyup(function (event) {
 				msgStack.shift();
 			}
 			msgStackPosition = msgStack.push(message) - 1;
+			socket.emit('stop-typing');
+			typing = false;
 		}
 	} else if (event.which == 38) {
 		var prevMsg = msgStack[msgStackPosition];
@@ -127,6 +173,10 @@ $inputField.keyup(function (event) {
 			}
 		}
 	}
+});
+
+$inputField.on('input', function () {
+	updateTyping();
 });
 
 init();

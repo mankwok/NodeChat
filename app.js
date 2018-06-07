@@ -1,13 +1,13 @@
-var express = require('express');
-var path = require('path')
-var compression = require('compression');
-var moment = require('moment');
+const express = require('express');
+const path = require('path')
+const compression = require('compression');
+const moment = require('moment');
 
-var PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io').listen(server);
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io').listen(server);
 
 var numUsers = 0;
 var numMsg = 0;
@@ -15,12 +15,12 @@ var numMsg = 0;
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'public')))
-	.get('/', function (req, res) {
+	.get('/', (req, res) => {
 		res.render('index.html');
 	});
 
-io.sockets.on('connection', function (socket) {
-	socket.on('login', function (username) {
+io.sockets.on('connection', (socket) => {
+	socket.on('login', (username) => {
 		if (username != null && username != '') {
 			socket.username = username;
 		} else {
@@ -36,7 +36,7 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('user-join', content);
 		socket.emit('logged-in', content)
 	});
-	socket.on('message', function (message) {
+	socket.on('message', (message) => {
 		numMsg++;
 		var content = {
 			username: socket.username,
@@ -46,8 +46,19 @@ io.sockets.on('connection', function (socket) {
 		};
 		socket.broadcast.emit('message', content);
 	});
-	socket.on('disconnect', function () {
-		if (typeof (socket.username) != 'undefined' && socket.username != null && numUsers > 0) {
+
+	socket.on('typing', () => {
+		socket.broadcast.emit('typing', {
+			username: socket.username
+		});
+	});
+
+	socket.on('stop-typing', () => {
+		socket.broadcast.emit('stop-typing', {});
+	});
+
+	socket.on('disconnect', () => {
+		if (typeof (socket.username) != 'undefined' && !socket.username && numUsers > 0) {
 			numUsers--;
 			var content = {
 				username: socket.username,
