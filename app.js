@@ -58,7 +58,7 @@ io.sockets.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		if (typeof (socket.username) != 'undefined' && !socket.username && numUsers > 0) {
+		if (typeof (socket.username) !== 'undefined' && numUsers > 0) {
 			numUsers--;
 			var content = {
 				username: socket.username,
