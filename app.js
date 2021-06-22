@@ -5,8 +5,17 @@ const moment = require('moment');
 
 const PORT = process.env.PORT || 8080;
 
+const https = require('https');
+const fs = require('fs');
+const hskey = fs.readFileSync('ssl.key/server.key');
+const hscert = fs.readFileSync('ssl.crt/server.crt')
+const options = {
+    key: hskey,
+    cert: hscert
+};
+
 const app = express();
-const server = require('http').Server(app);
+const server = https.createServer(options, app);
 const io = require('socket.io').listen(server);
 
 var numUsers = 0;
@@ -58,7 +67,7 @@ io.sockets.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		if (typeof (socket.username) !== 'undefined' && numUsers > 0) {
+		if (typeof (socket.username) != 'undefined' && socket.username && numUsers > 0) {
 			numUsers--;
 			var content = {
 				username: socket.username,
@@ -71,5 +80,5 @@ io.sockets.on('connection', (socket) => {
 	});
 });
 
-console.log("Server listening at http://localhost:" + PORT);
+console.log("Server listening at https://localhost:" + PORT);
 server.listen(PORT);
