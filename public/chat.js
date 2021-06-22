@@ -57,7 +57,7 @@ function prepareMessage(msgType, data) {
 }
 
 function login() {
-	username = cleanInput($usernameField.val());
+	username = $usernameField.val();
 	socket.emit('login', username);
 	$divLogin.hide();
 	$divChat.show();
@@ -143,7 +143,7 @@ $usernameField.keyup(function (event) {
 
 $inputField.keyup(function (event) {
 	if (event.which == 13) {
-		var message = cleanInput($inputField.val());
+		var message = $inputField.val();
 		if (message) {
 			socket.emit('message', message);
 			addMessageElement('self', message);
