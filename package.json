@@ -6,7 +6,7 @@
   "description": "NodeJs Chatroom",
   "dependencies": {
     "compression": "^1.7.1",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "moment": "^2.20.1",
     "socket.io": "^2.4.0"
   },
